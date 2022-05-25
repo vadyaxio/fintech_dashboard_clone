@@ -1,16 +1,22 @@
-import 'package:fintech_dashboard_clone/layout/app_layout.dart';
-import 'package:fintech_dashboard_clone/models/card_details.dart';
-import 'package:fintech_dashboard_clone/models/enums/card_type.dart';
-import 'package:fintech_dashboard_clone/responsive.dart';
-import 'package:fintech_dashboard_clone/sections/expense_income_chart.dart';
-import 'package:fintech_dashboard_clone/sections/latest_transactions.dart';
-import 'package:fintech_dashboard_clone/sections/statics_by_category.dart';
-import 'package:fintech_dashboard_clone/sections/upgrade_pro_section.dart';
-import 'package:fintech_dashboard_clone/sections/your_cards_section.dart';
-import 'package:fintech_dashboard_clone/styles/styles.dart';
+import 'package:maxbonus_index/screen/home.dart';
+import 'package:maxbonus_index/screen/login.dart';
+import 'package:maxbonus_index/api/api.dart';
+import 'package:maxbonus_index/styles/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+bool hasJwt = false;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  hasJwt = await API().getJwt();
+  await Hive.initFlutter();
+  try {
+    await Hive.openBox('common');
+  } catch (e) {
+    print('Failed to open Hive');
+  }
   runApp(const FintechDasboardApp());
 }
 
@@ -20,84 +26,48 @@ class FintechDasboardApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ru', ''),
+      ],
+      locale: const Locale('ru'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Roboto',
         scaffoldBackgroundColor: Styles.scaffoldBackgroundColor,
         scrollbarTheme: Styles.scrollbarTheme,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int activeTab = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: AppLayout(
-          content: Row(
-            children: [
-              // Main Panel
-              Expanded(
-                child: Column(
-                  children: [
-                    const Expanded(
-                      flex: 2,
-                      child: ExpenseIncomeCharts(),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: Styles.defaultPadding,
-                        ),
-                        child: const UpgradeProSection(),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: LatestTransactions(),
-                    ),
-                  ],
-                ),
-                flex: 5,
-              ),
-              // Right Panel
-              Visibility(
-                visible: Responsive.isDesktop(context),
-                child: Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: Styles.defaultPadding),
-                    child: Column(
-                      children: [
-                        CardsSection(
-                          cardDetails: [
-                            CardDetails("431421432", CardType.mastercard),
-                            CardDetails("423142231", CardType.mastercard),
-                          ],
-                        ),
-                        const Expanded(
-                          child: StaticsByCategory(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  flex: 2,
-                ),
-              )
-            ],
+        primaryColor: const Color.fromARGB(255, 250, 102, 28),
+        dialogBackgroundColor: const Color.fromARGB(31, 156, 156, 156),
+        hintColor: Colors.black54,
+        inputDecorationTheme: const InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent, width: 0),
           ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent, width: 0),
+          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.all(Radius.circular(8)),
+          // ),
+          floatingLabelStyle: TextStyle(color: Colors.black54),
+          fillColor: Color.fromARGB(31, 156, 156, 156),
+          filled: true,
         ),
+        colorScheme: ThemeData()
+            .colorScheme
+            .copyWith(primary: const Color.fromARGB(255, 250, 102, 28)),
       ),
+      initialRoute: hasJwt ? "/" : "login",
+      routes: {
+        '/': (context) => const HomePage(),
+        "login": (context) => const LoginPage(),
+      },
+      //home: hasJwt ? const HomePage() : const LoginApp(),
+      // home: const HomePage(),
     );
   }
 }

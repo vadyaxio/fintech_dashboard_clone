@@ -1,4 +1,4 @@
-package com.example.fintech_dashboard_clone
+package com.example.maxbonus_index
 
 import io.flutter.embedding.android.FlutterActivity
 

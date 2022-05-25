@@ -1,4 +1,4 @@
-name: fintech_dashboard_clone
+name: maxbonus_index
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -36,6 +36,21 @@ dependencies:
   cupertino_icons: ^1.0.2
   fl_chart: ^0.41.0
   intl: ^0.17.0
+  lottie: ^1.2.2
+  font_awesome_flutter: ^10.0.0
+  http: ^0.13.4
+  flutter_secure_storage: ^5.0.2
+  hive: ^2.1.0
+  hive_flutter: ^1.1.0
+  url_launcher: ^6.0.20
+  charts_flutter: ^0.12.0
+  pie_chart: ^5.3.0
+  percent_indicator: ^4.0.0
+  syncfusion_flutter_datepicker: ^20.1.50
+  flutter_localizations: 
+    sdk: flutter
+    version: ^0.0.0
+  group_button: ^5.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,8 +75,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/card_logos/
-   - assets/astranaut.png
+   - assets/man.png
+   - assets/charts.png
+   - assets/auth_background.png
    - assets/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -75,17 +91,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat-Italic.ttf
+          style: italic
+        - asset: fonts/Montserrat-Bold.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Italic.ttf
+        - asset: fonts/Roboto-Bold.ttf
+        - asset: fonts/Roboto-Medium.ttf
+          weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
