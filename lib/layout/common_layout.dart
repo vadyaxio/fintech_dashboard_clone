@@ -21,7 +21,7 @@ class CommonLayout extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(10.0), //child: content
+                padding: const EdgeInsets.only(top: 10.0), //child: content
                 child: SingleChildScrollView(
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(minHeight: 100),

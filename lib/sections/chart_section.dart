@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:maxbonus_index/api/api.dart';
 import 'package:maxbonus_index/models/chart.dart';
 import 'package:maxbonus_index/screen/chart_details.dart';
@@ -18,12 +19,20 @@ class _ChartSectionState extends State<ChartSection> {
   late bool _loading = false;
   late List<Chart> _list = [];
   late Map<String, DateTime?> _periodDate = {
-    "begin": DateTime.now().subtract(const Duration(days: 30)),
-    "end": DateTime.now(),
+    "begin": Hive.box("chart").get("periodDate") != null
+        ? Hive.box("chart").get("periodDate")['begin']
+        : DateTime.now().subtract(const Duration(days: 30)),
+    "end": Hive.box("chart").get("periodDate") != null
+        ? Hive.box("chart").get("periodDate")['end']
+        : DateTime.now(),
   };
   late Map<String, DateTime?> _compareDate = {
-    "begin": null,
-    "end": null,
+    "begin": Hive.box("chart").get("compareDate") != null
+        ? Hive.box("chart").get("compareDate")['begin']
+        : null,
+    "end": Hive.box("chart").get("compareDate") != null
+        ? Hive.box("chart").get("compareDate")['end']
+        : null,
   };
 
   @override
@@ -75,9 +84,6 @@ class _ChartSectionState extends State<ChartSection> {
                           date: _compareDate,
                           updateDate: refresh)
                     ]),
-                SizedBox(
-                  height: _loading ? 400 : 0,
-                ),
                 for (Chart item in _list)
                   Flexible(
                       child: GestureDetector(

@@ -141,7 +141,7 @@ class LoginPageState extends State<LoginPage>
                   width: MediaQuery.of(context).size.width,
                 )),
             const SizedBox(
-              height: 30,
+              height: 8,
             ),
             _isLoading
                 ? Column(children: const [

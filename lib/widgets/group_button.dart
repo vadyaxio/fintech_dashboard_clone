@@ -57,7 +57,8 @@ class _GroupButtonVerticalState extends State<GroupButtonVertical> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Flexible(
+        child: Container(
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
@@ -69,7 +70,7 @@ class _GroupButtonVerticalState extends State<GroupButtonVertical> {
           children: [
             for (var button in _buttons)
               SizedBox(
-                  width: 360 / _buttons.length,
+                  width: 300 / _buttons.length,
                   child: ElevatedButton(
                     child: Text(
                       Button.fromJson(button).name,
@@ -108,6 +109,6 @@ class _GroupButtonVerticalState extends State<GroupButtonVertical> {
           ],
         ),
       ]),
-    );
+    ));
   }
 }

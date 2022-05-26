@@ -25,8 +25,8 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   void getUser() {
-    dynamic qqq = Hive.box("common").get("user");
-    print(qqq);
+    dynamic user = Hive.box("common").get("user");
+    print(user);
   }
 
   @override

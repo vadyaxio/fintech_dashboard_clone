@@ -14,6 +14,7 @@ void main() async {
   await Hive.initFlutter();
   try {
     await Hive.openBox('common');
+    await Hive.openBox('chart');
   } catch (e) {
     print('Failed to open Hive');
   }

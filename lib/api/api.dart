@@ -95,6 +95,8 @@ class API {
   }
 
   Future<List<Chart>> chartApi(Chart chart) async {
+    Hive.box('chart').put("periodDate", chart.periodDate);
+    Hive.box('chart').put("compareDate", chart.compareDate);
     List<Chart> data = [];
     String params = "maxbonus-index/factors";
 

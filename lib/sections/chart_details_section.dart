@@ -85,8 +85,7 @@ class _ChartDetailsSectionState extends State<ChartDetailsSection> {
                   RangePicker(
                       type: 'compare', date: _compareDate, updateDate: refresh)
                 ]),
-            Flexible(
-                child: CircularChart(
+            CircularChart(
               title: _chart.factorName,
               description: _chart.description,
               amount: _chart.factCurrent,
@@ -94,18 +93,20 @@ class _ChartDetailsSectionState extends State<ChartDetailsSection> {
               dynamic: _chart.factDynamic,
               barColor: Styles.defaultBlueColor,
               withTitle: false,
-            )),
+            ),
             GroupButtonVertical(
               activeButton: 1,
               updateState: updateType,
               type: 'common',
             ),
+            const Padding(padding: EdgeInsets.only(top: 5)),
             GroupButtonVertical(
               activeButton: _periodType,
               updateState: updatePeriod,
               type: 'periodUnit',
             ),
-            Flexible(
+            SizedBox(
+                height: 220,
                 child: _currentDetailList.isNotEmpty
                     ? _periodType == 3
                         ? StackedArea(

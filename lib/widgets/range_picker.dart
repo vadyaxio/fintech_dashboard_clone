@@ -49,7 +49,7 @@ class _RangePickerState extends State<RangePicker> {
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
-        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: ElevatedButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -63,8 +63,8 @@ class _RangePickerState extends State<RangePicker> {
                     color: Colors.black54,
                     fontSize: (widget.date!['begin'] == null &&
                             widget.date!['end'] == null)
-                        ? 12
-                        : 16,
+                        ? 10
+                        : 12,
                     fontWeight: FontWeight.w100),
               ),
               Padding(

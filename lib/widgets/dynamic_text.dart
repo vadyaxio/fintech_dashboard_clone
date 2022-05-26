@@ -16,7 +16,7 @@ class DynamicText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-          color: dynamic > 0
+          color: dynamic >= 0
               ? const Color.fromARGB(255, 231, 250, 212)
               : const Color.fromARGB(255, 250, 230, 212),
           borderRadius: const BorderRadius.all(
@@ -28,7 +28,7 @@ class DynamicText extends StatelessWidget {
           text: TextSpan(
             children: [
               WidgetSpan(
-                  child: dynamic > 0
+                  child: dynamic >= 0
                       ? const Icon(
                           Icons.arrow_upward,
                           color: Color.fromARGB(255, 19, 193, 4),
@@ -49,7 +49,7 @@ class DynamicText extends StatelessWidget {
                             '', // if you want to add currency symbol then pass that in this else leave it empty.
                       ).format(dynamic.abs()),
                 style: TextStyle(
-                  color: dynamic > 0
+                  color: dynamic >= 0
                       ? const Color.fromARGB(255, 19, 193, 4)
                       : const Color.fromARGB(255, 255, 0, 1),
                   fontSize: fontSize,
@@ -60,7 +60,7 @@ class DynamicText extends StatelessWidget {
                 text: unit,
                 style: TextStyle(
                   fontSize: fontSize,
-                  color: dynamic > 0
+                  color: dynamic >= 0
                       ? const Color.fromARGB(255, 19, 193, 4)
                       : const Color.fromARGB(255, 255, 0, 1),
                   fontWeight: FontWeight.bold,

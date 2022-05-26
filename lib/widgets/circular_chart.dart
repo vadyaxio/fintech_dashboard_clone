@@ -43,15 +43,14 @@ class CircularChart extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      title.length > 30
-                          ? title.substring(0, 30) + '...'
-                          : title,
+                    Flexible(
+                        child: Text(
+                      title,
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500
                           // FontWeight.bold,
                           ),
-                    ),
+                    )),
                     // IconButton(
                     //   color: Colors.black38,
                     //   icon: const Icon(Icons.more_horiz),
@@ -66,6 +65,7 @@ class CircularChart extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const Padding(padding: EdgeInsets.only(top: 10)),
                     DynamicText(
                       fontSize: 16,
                       dynamic: dynamic ?? 0.0,
@@ -76,6 +76,7 @@ class CircularChart extends StatelessWidget {
                 )
               : Column(
                   children: [
+                    const Padding(padding: EdgeInsets.only(top: 10)),
                     hasPrevData
                         ? DynamicText(
                             fontSize: 20,
@@ -153,7 +154,7 @@ class CircularChart extends StatelessWidget {
                     circularStrokeCap: CircularStrokeCap.round,
                     startAngle: 240,
                     linearGradient: hasPrevData
-                        ? (dynamic ?? 0.0) > 0.0
+                        ? (dynamic ?? 0.0) >= 0.0
                             ? const LinearGradient(colors: [
                                 Color.fromARGB(255, 186, 230, 55),
                                 Color.fromARGB(255, 19, 193, 4)
