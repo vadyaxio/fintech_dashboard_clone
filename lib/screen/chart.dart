@@ -10,6 +10,13 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPageState extends State<ChartPage> {
+  Key _key = const Key('');
+  Future<void> _pullRefresh() async {
+    setState(() {
+      _key = Key(DateTime.now().millisecondsSinceEpoch.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +37,13 @@ class _ChartPageState extends State<ChartPage> {
         centerTitle: true,
         title: const Text('Основные показатели'),
       ),
-      body: const SafeArea(
-        child: CommonLayout(
-          content: ChartSection(),
-        ),
-      ),
+      body: RefreshIndicator(
+          onRefresh: _pullRefresh,
+          child: SafeArea(
+            child: CommonLayout(
+              content: ChartSection(key: _key),
+            ),
+          )),
     );
   }
 }

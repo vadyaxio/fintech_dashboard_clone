@@ -51,8 +51,16 @@ class _BarAreaState extends State<BarArea> {
                       DateFormat('dd.MM.yyyy')
                           .format(model.selectedDatum[0].datum.dateEnd)
                           .toString(),
-              model.selectedDatum[0].datum.value.toString(),
-              model.selectedDatum[1].datum.value.toString(),
+              NumberFormat.compactCurrency(
+                decimalDigits: 2,
+                symbol:
+                    '', // if you want to add currency symbol then pass that in this else leave it empty.
+              ).format(model.selectedDatum[0].datum.value),
+              NumberFormat.compactCurrency(
+                decimalDigits: 2,
+                symbol:
+                    '', // if you want to add currency symbol then pass that in this else leave it empty.
+              ).format(model.selectedDatum[1].datum.value),
               true);
         } else {
           _tooltip = BarTooltip(
@@ -67,8 +75,16 @@ class _BarAreaState extends State<BarArea> {
                       DateFormat('dd.MM.yyyy')
                           .format(model.selectedDatum[1].datum.dateEnd)
                           .toString(),
-              model.selectedDatum[1].datum.value.toString(),
-              model.selectedDatum[0].datum.value.toString(),
+              NumberFormat.compactCurrency(
+                decimalDigits: 2,
+                symbol:
+                    '', // if you want to add currency symbol then pass that in this else leave it empty.
+              ).format(model.selectedDatum[1].datum.value),
+              NumberFormat.compactCurrency(
+                decimalDigits: 2,
+                symbol:
+                    '', // if you want to add currency symbol then pass that in this else leave it empty.
+              ).format(model.selectedDatum[0].datum.value),
               true);
         }
       } else {
@@ -84,7 +100,11 @@ class _BarAreaState extends State<BarArea> {
                     DateFormat('dd.MM.yyyy')
                         .format(model.selectedDatum[0].datum.dateEnd)
                         .toString(),
-            model.selectedDatum[0].datum.value.toString(),
+            NumberFormat.compactCurrency(
+              decimalDigits: 2,
+              symbol:
+                  '', // if you want to add currency symbol then pass that in this else leave it empty.
+            ).format(model.selectedDatum[0].datum.value),
             '',
             true);
       }
@@ -176,14 +196,14 @@ class _BarAreaState extends State<BarArea> {
                                 fontSize: 14,
                               )),
                           const Padding(padding: EdgeInsets.only(top: 3)),
-                          Text(_tooltip.current,
+                          Text(_tooltip.current.toString(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                               )),
                           const Padding(padding: EdgeInsets.only(top: 3)),
-                          Text(_tooltip.prev,
+                          Text(_tooltip.prev.toString(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,

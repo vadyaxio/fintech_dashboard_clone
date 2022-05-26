@@ -31,7 +31,8 @@ class API {
   Future<Response?> response(String params, String type, String body) async {
     Uri url;
 
-    url = Uri.http(baseUrl, "$apiStr$params");
+    //url = Uri.http(baseUrl, "$apiStr$params");
+    url = Uri.https(baseUrl, "$apiStr$params");
 
     String? jwt = await storage.read(key: "jwt");
 

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:maxbonus_index/responsive.dart';
 import 'package:maxbonus_index/styles/styles.dart';
 import 'package:maxbonus_index/widgets/dynamic_text.dart';
@@ -43,19 +44,21 @@ class CircularChart extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      title,
+                      title.length > 30
+                          ? title.substring(0, 30) + '...'
+                          : title,
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500
                           // FontWeight.bold,
                           ),
                     ),
-                    IconButton(
-                      color: Colors.black38,
-                      icon: const Icon(Icons.more_horiz),
-                      onPressed: () {
-                        print('123');
-                      },
-                    ),
+                    // IconButton(
+                    //   color: Colors.black38,
+                    //   icon: const Icon(Icons.more_horiz),
+                    //   onPressed: () {
+                    //     print('123');
+                    //   },
+                    // ),
                   ],
                 )
               : const SizedBox(),
@@ -97,7 +100,11 @@ class CircularChart extends StatelessWidget {
                       ? Container(
                           margin: const EdgeInsets.only(top: 70),
                           child: Text(
-                            amountPrev.toString(),
+                            NumberFormat.compactCurrency(
+                              decimalDigits: 2,
+                              symbol:
+                                  '', // if you want to add currency symbol then pass that in this else leave it empty.
+                            ).format(amountPrev).toString(),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -133,7 +140,11 @@ class CircularChart extends StatelessWidget {
                         ? 0.67
                         : ((amount ?? 0.0) * 0.67) / (amountPrev ?? 0.0),
                     center: Text(
-                      amount.toString(),
+                      NumberFormat.compactCurrency(
+                        decimalDigits: 2,
+                        symbol:
+                            '', // if you want to add currency symbol then pass that in this else leave it empty.
+                      ).format(amount).toString(),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 36.0,

@@ -51,6 +51,8 @@ dependencies:
     sdk: flutter
     version: ^0.0.0
   group_button: ^5.0.0
+  loading_overlay: ^0.3.0
+  skeletons: ^0.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

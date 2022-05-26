@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DynamicText extends StatelessWidget {
   final double dynamic;
@@ -37,8 +38,16 @@ class DynamicText extends StatelessWidget {
                   alignment: PlaceholderAlignment.middle),
               TextSpan(
                 text: dynamic > 0
-                    ? dynamic.toStringAsFixed(2)
-                    : dynamic.abs().toStringAsFixed(2),
+                    ? NumberFormat.compactCurrency(
+                        decimalDigits: 2,
+                        symbol:
+                            '', // if you want to add currency symbol then pass that in this else leave it empty.
+                      ).format(dynamic)
+                    : NumberFormat.compactCurrency(
+                        decimalDigits: 2,
+                        symbol:
+                            '', // if you want to add currency symbol then pass that in this else leave it empty.
+                      ).format(dynamic.abs()),
                 style: TextStyle(
                   color: dynamic > 0
                       ? const Color.fromARGB(255, 19, 193, 4)

@@ -245,6 +245,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  loading_overlay:
+    dependency: "direct main"
+    description:
+      name: loading_overlay
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   logging:
     dependency: transitive
     description:
@@ -371,6 +378,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  skeletons:
+    dependency: "direct main"
+    description:
+      name: skeletons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   sky_engine:
     dependency: transitive
     description: flutter
