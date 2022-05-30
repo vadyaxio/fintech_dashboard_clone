@@ -43,6 +43,14 @@ class _RangePickerState extends State<RangePicker> {
     }
   }
 
+  void clearForm() async {
+    widget.updateDate({
+      "begin": null,
+      "end": null,
+    }, widget.type);
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,7 +134,7 @@ class _RangePickerState extends State<RangePicker> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                            width: 180,
+                                            width: 140,
                                             padding: const EdgeInsets.all(14),
                                             decoration: BoxDecoration(
                                                 borderRadius:
@@ -146,10 +154,10 @@ class _RangePickerState extends State<RangePicker> {
                                                           DateTime.now())
                                                   : 'Дата не указана',
                                               style:
-                                                  const TextStyle(fontSize: 16),
+                                                  const TextStyle(fontSize: 14),
                                             )),
                                         Container(
-                                            width: 180,
+                                            width: 140,
                                             padding: const EdgeInsets.all(14),
                                             decoration: BoxDecoration(
                                                 borderRadius:
@@ -169,7 +177,7 @@ class _RangePickerState extends State<RangePicker> {
                                                               DateTime.now())
                                                   : 'Дата не указана',
                                               style:
-                                                  const TextStyle(fontSize: 16),
+                                                  const TextStyle(fontSize: 14),
                                             ))
                                       ]),
                                   const SizedBox(
@@ -220,6 +228,22 @@ class _RangePickerState extends State<RangePicker> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10)),
                                           ))),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 60,
+                                    child: TextButton(
+                                      onPressed: clearForm,
+                                      child: const Text('ОЧИСТИТЬ'),
+                                      style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 10, 10, 10),
+                                        primary: Colors.black54,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(

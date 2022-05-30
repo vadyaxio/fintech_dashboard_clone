@@ -90,7 +90,9 @@ class API {
       final getData = json.decode(res?.body ?? "");
       logoutApi();
       if (res?.statusCode == 200) {}
-    } catch (e) {}
+    } catch (e) {
+      clearJwt();
+    }
     return data;
   }
 
@@ -112,7 +114,9 @@ class API {
             .map((chartJson) => Chart.fromJson(chartJson))
             .toList();
       }
-    } catch (e) {}
+    } catch (e) {
+      clearJwt();
+    }
     return data;
   }
 
@@ -129,7 +133,9 @@ class API {
       if (res?.statusCode == 200) {
         data = ChartDetails.fromJson(getData['data']['dataModels']);
       }
-    } catch (e) {}
+    } catch (e) {
+      clearJwt();
+    }
     return data;
   }
 }

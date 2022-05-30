@@ -67,47 +67,51 @@ class _ChartSectionState extends State<ChartSection> {
           scale: 1.5,
           child: const CircularProgressIndicator(),
         ),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+        child: _loading
+            ? const SizedBox(
+                height: 100,
+              )
+            : Stack(
+                children: [
+                  Column(
                     children: [
-                      RangePicker(
-                          type: 'period',
-                          date: _periodDate,
-                          updateDate: refresh),
-                      RangePicker(
-                          type: 'compare',
-                          date: _compareDate,
-                          updateDate: refresh)
-                    ]),
-                for (Chart item in _list)
-                  Flexible(
-                      child: GestureDetector(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChartDetailsPage(
-                                        item: item,
-                                        refresh: refresh,
-                                        periodDate: _periodDate,
-                                        compareDate: _compareDate,
-                                      ))),
-                          child: CircularChart(
-                            title: item.factorName,
-                            description: item.description,
-                            amount: item.factCurrent,
-                            amountPrev: item.factPrev,
-                            dynamic: item.factDynamic,
-                            barColor: Styles.defaultBlueColor,
-                            withTitle: true,
-                          ))),
-              ],
-            ),
-          ],
-        ));
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            RangePicker(
+                                type: 'period',
+                                date: _periodDate,
+                                updateDate: refresh),
+                            RangePicker(
+                                type: 'compare',
+                                date: _compareDate,
+                                updateDate: refresh)
+                          ]),
+                      for (Chart item in _list)
+                        Flexible(
+                            child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChartDetailsPage(
+                                              item: item,
+                                              refresh: refresh,
+                                              periodDate: _periodDate,
+                                              compareDate: _compareDate,
+                                            ))),
+                                child: CircularChart(
+                                  title: item.factorName,
+                                  description: item.description,
+                                  amount: item.factCurrent,
+                                  amountPrev: item.factPrev,
+                                  dynamic: item.factDynamic,
+                                  barColor: Styles.defaultBlueColor,
+                                  withTitle: true,
+                                ))),
+                    ],
+                  ),
+                ],
+              ));
   }
 }
