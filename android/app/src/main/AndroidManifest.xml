@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.maxbonus_index">
    <application
-        android:label="maxbonus_index"
+        android:label="Maxbonus KPI"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -18,7 +18,12 @@ class API {
   //String apiStr = "/web/api/v1/";
 
   Future<bool> getJwt() async {
-    String? jwt = await storage.read(key: "jwt");
+    String? jwt;
+    try {
+      jwt = await storage.read(key: "jwt");
+    } catch (e) {
+      jwt = null;
+    }
     //clearJwt();
     //print(jwt);
     return jwt != null;
@@ -113,10 +118,10 @@ class API {
         data = arrayObjsJson
             .map((chartJson) => Chart.fromJson(chartJson))
             .toList();
+      } else if (res?.statusCode == 401) {
+        clearJwt();
       }
-    } catch (e) {
-      clearJwt();
-    }
+    } catch (e) {}
     return data;
   }
 
@@ -132,10 +137,10 @@ class API {
       final getData = json.decode(res?.body ?? "");
       if (res?.statusCode == 200) {
         data = ChartDetails.fromJson(getData['data']['dataModels']);
+      } else if (res?.statusCode == 401) {
+        clearJwt();
       }
-    } catch (e) {
-      clearJwt();
-    }
+    } catch (e) {}
     return data;
   }
 }
