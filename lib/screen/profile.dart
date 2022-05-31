@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   void checkJWT() async {
     API().homeApi().then((result) => {
-          print(result),
+          //print(result),
           Future(() {
             Navigator.of(context).popAndPushNamed('login');
           })
@@ -54,14 +54,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   primary: Colors.blue,
                 ),
                 onPressed: checkJWT,
-                child: Text('Разлогиниться'),
+                child: const Text('Разлогиниться'),
               ),
               TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.blue,
                 ),
                 onPressed: getUser,
-                child: Text('Инфа'),
+                child: const Text('Инфа'),
               ),
             ],
           ),

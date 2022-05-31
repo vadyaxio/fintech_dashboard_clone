@@ -25,6 +25,7 @@ class _BarAreaState extends State<BarArea> {
 
   @override
   void initState() {
+    super.initState();
     _tooltip = BarTooltip('', '', '', false);
   }
 

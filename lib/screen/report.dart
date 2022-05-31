@@ -17,7 +17,7 @@ class _ReportPageState extends State<ReportPage> {
 
   void checkJWT() async {
     API().homeApi().then((result) => {
-          print(result),
+          //print(result),
           Future(() {
             Navigator.of(context).popAndPushNamed('login');
           })
@@ -26,7 +26,7 @@ class _ReportPageState extends State<ReportPage> {
 
   void getUser() {
     dynamic user = Hive.box("common").get("user");
-    print(user);
+    //print(user);
   }
 
   @override
@@ -45,14 +45,14 @@ class _ReportPageState extends State<ReportPage> {
                         primary: Colors.blue,
                       ),
                       onPressed: checkJWT,
-                      child: Text('Разлогиниться'),
+                      child: const Text('Разлогиниться'),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
                         primary: Colors.blue,
                       ),
                       onPressed: getUser,
-                      child: Text('Инфа'),
+                      child: const Text('Инфа'),
                     )
                   ],
                 ),
@@ -65,7 +65,7 @@ class _ReportPageState extends State<ReportPage> {
                   child: Padding(
                     padding: EdgeInsets.only(left: Styles.defaultPadding),
                     child: Column(
-                      children: [
+                      children: const [
                         Text('123'),
                       ],
                     ),

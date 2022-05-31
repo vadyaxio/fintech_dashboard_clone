@@ -16,7 +16,7 @@ void main() async {
     await Hive.openBox('common');
     await Hive.openBox('chart');
   } catch (e) {
-    print('Failed to open Hive');
+    //print('Failed to open Hive');
   }
   runApp(const FintechDasboardApp());
 }

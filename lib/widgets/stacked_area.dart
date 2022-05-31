@@ -47,7 +47,7 @@ class StackedArea extends StatelessWidget {
     }
 
     //return Container(child: Text(detail.date ?? ''));
-    return Container(
+    return SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         child: charts.TimeSeriesChart(_createSampleData(),
             domainAxis: const charts.DateTimeAxisSpec(

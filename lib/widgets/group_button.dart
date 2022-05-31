@@ -1,11 +1,5 @@
-import 'dart:convert';
-
-import 'package:group_button/group_button.dart';
-import 'package:maxbonus_index/layout/modal_bottom_sheet_layout.dart';
 import 'package:maxbonus_index/models/button.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class GroupButtonVertical extends StatefulWidget {
   final String type;
@@ -29,6 +23,7 @@ class _GroupButtonVerticalState extends State<GroupButtonVertical> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.type == 'periodUnit') {
       _buttons = [
         {"index": 1, "name": "Дни", "disable": false, "position": "left"},

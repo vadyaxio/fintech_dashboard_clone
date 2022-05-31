@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 
 class API {
   Map<String, String> headers = {};
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   String baseUrl = "expert.maxbonus.ru";
   String apiStr = "/api/v1/";
   //App
@@ -75,7 +75,7 @@ class API {
         Hive.box('common').put("user", getData["data"]);
       }
     } catch (e) {
-      print(e);
+      //print(e);
       clearJwt();
     }
     return data;
@@ -92,7 +92,7 @@ class API {
 
     try {
       final res = await response(params, "POST", "");
-      final getData = json.decode(res?.body ?? "");
+      //final getData = json.decode(res?.body ?? "");
       logoutApi();
       if (res?.statusCode == 200) {}
     } catch (e) {
@@ -121,7 +121,9 @@ class API {
       } else if (res?.statusCode == 401) {
         clearJwt();
       }
-    } catch (e) {}
+    } catch (e) {
+      clearJwt();
+    }
     return data;
   }
 
@@ -140,7 +142,9 @@ class API {
       } else if (res?.statusCode == 401) {
         clearJwt();
       }
-    } catch (e) {}
+    } catch (e) {
+      clearJwt();
+    }
     return data;
   }
 }

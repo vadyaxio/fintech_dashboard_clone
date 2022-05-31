@@ -27,6 +27,7 @@ class LoginPageState extends State<LoginPage>
 
   @override
   void initState() {
+    super.initState();
     Future.delayed(const Duration(milliseconds: 1600), () {
       setState(() {
         _isStartMan = true;
@@ -62,7 +63,7 @@ class LoginPageState extends State<LoginPage>
       API()
           .loginApi(User(_nameController.text, _passwordController.text))
           .then((result) => {
-                print(result),
+                //print(result),
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(result["message"].toString())),
                 ),

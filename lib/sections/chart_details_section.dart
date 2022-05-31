@@ -40,6 +40,7 @@ class _ChartDetailsSectionState extends State<ChartDetailsSection> {
 
   @override
   void initState() {
+    super.initState();
     requestApi();
   }
 

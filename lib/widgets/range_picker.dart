@@ -25,6 +25,7 @@ class _RangePickerState extends State<RangePicker> {
 
   @override
   void initState() {
+    super.initState();
     _date['begin'] = widget.date!['begin'];
     _date['end'] = widget.date!['end'];
   }

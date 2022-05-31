@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:maxbonus_index/api/api.dart';
@@ -15,7 +17,10 @@ class ChartSection extends StatefulWidget {
   State<ChartSection> createState() => _ChartSectionState();
 }
 
-class _ChartSectionState extends State<ChartSection> {
+class _ChartSectionState extends State<ChartSection>
+    with WidgetsBindingObserver {
+  late Timer _timer = Timer(const Duration(seconds: 1), () => {print("1233")});
+  bool waitingForResponse = false;
   late bool _loading = false;
   late List<Chart> _list = [];
   late Map<String, DateTime?> _periodDate = {
@@ -37,7 +42,10 @@ class _ChartSectionState extends State<ChartSection> {
 
   @override
   void initState() {
+    super.initState();
     _loading = true;
+    WidgetsBinding.instance?.addObserver(this); // Adding an observer
+    setTimer(false);
     API().chartApi(Chart(0, '', _periodDate, _compareDate)).then((result) => {
           setState(() {
             _list = result;
@@ -46,7 +54,20 @@ class _ChartSectionState extends State<ChartSection> {
         });
   }
 
-  refresh(date, type) {
+  @override
+  void dispose() {
+    _timer.cancel(); // Cancelling a timer on dispose
+    WidgetsBinding.instance?.removeObserver(this); // Removing an observer
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    setTimer(state != AppLifecycleState.resumed);
+  }
+
+  void refresh(date, type) {
     _loading = true;
     setState(
         () => {type == 'period' ? _periodDate = date : _compareDate = date});
@@ -56,6 +77,27 @@ class _ChartSectionState extends State<ChartSection> {
             _loading = false;
           }),
         });
+  }
+
+  void setTimer(bool isBackground) {
+    int delaySeconds = isBackground ? 60 : 30;
+
+    // Cancelling previous timer, if there was one, and creating a new one
+    _timer.cancel();
+    _timer = Timer.periodic(Duration(seconds: delaySeconds), (t) async {
+      //Not sending a request, if waiting for response
+      if (!waitingForResponse) {
+        waitingForResponse = true;
+        await API()
+            .chartApi(Chart(0, '', _periodDate, _compareDate))
+            .then((result) => {
+                  setState(() {
+                    _list = result;
+                  }),
+                });
+        waitingForResponse = false;
+      }
+    });
   }
 
   @override
