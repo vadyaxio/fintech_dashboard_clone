@@ -12,11 +12,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   void checkJWT() async {
-    API().homeApi().then((result) => {
+    API().homeApi(context).then((result) => {
           //print(result),
-          Future(() {
-            Navigator.of(context).popAndPushNamed('login');
-          })
         });
   }
 

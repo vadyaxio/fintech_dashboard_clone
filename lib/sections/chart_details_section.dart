@@ -46,7 +46,7 @@ class _ChartDetailsSectionState extends State<ChartDetailsSection> {
 
   requestApi() {
     API()
-        .chartDetailsApi(
+        .chartDetailsApi(context,
             ChartDetails(_chart, _periodType, _periodDate, _compareDate))
         .then((result) => {
               setState(() {

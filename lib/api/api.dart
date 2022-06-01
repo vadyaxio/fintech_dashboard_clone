@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:maxbonus_index/models/chart.dart';
 import 'package:maxbonus_index/models/chart_details.dart';
@@ -81,19 +82,22 @@ class API {
     return data;
   }
 
-  void logoutApi() {
+  void logoutApi(context) {
     clearJwt();
     Hive.box('common').delete("user");
+    Future(() {
+      Navigator.of(context).popAndPushNamed('login');
+    });
   }
 
-  Future<Map> homeApi() async {
+  Future<Map> homeApi(context) async {
     Map<String, List> data = {};
     String params = "fact/factor/1";
 
     try {
       final res = await response(params, "POST", "");
       //final getData = json.decode(res?.body ?? "");
-      logoutApi();
+      logoutApi(context);
       if (res?.statusCode == 200) {}
     } catch (e) {
       clearJwt();
@@ -101,7 +105,7 @@ class API {
     return data;
   }
 
-  Future<List<Chart>> chartApi(Chart chart) async {
+  Future<List<Chart>> chartApi(context, Chart chart) async {
     Hive.box('chart').put("periodDate", chart.periodDate);
     Hive.box('chart').put("compareDate", chart.compareDate);
     List<Chart> data = [];
@@ -111,6 +115,7 @@ class API {
     String jsonRequestBody = json.encode(jsonRequestData);
 
     try {
+      //print('debug');
       final res = await response(params, "POST", jsonRequestBody);
       final getData = json.decode(res?.body ?? "");
       if (res?.statusCode == 200) {
@@ -119,15 +124,16 @@ class API {
             .map((chartJson) => Chart.fromJson(chartJson))
             .toList();
       } else if (res?.statusCode == 401) {
-        clearJwt();
+        logoutApi(context);
       }
     } catch (e) {
-      clearJwt();
+      logoutApi(context);
     }
     return data;
   }
 
-  Future<ChartDetails> chartDetailsApi(ChartDetails chartDetails) async {
+  Future<ChartDetails> chartDetailsApi(
+      context, ChartDetails chartDetails) async {
     ChartDetails data = chartDetails;
     String params = "maxbonus-index/factor-details/${chartDetails.chart.id}";
 
@@ -140,10 +146,10 @@ class API {
       if (res?.statusCode == 200) {
         data = ChartDetails.fromJson(getData['data']['dataModels']);
       } else if (res?.statusCode == 401) {
-        clearJwt();
+        logoutApi(context);
       }
     } catch (e) {
-      clearJwt();
+      logoutApi(context);
     }
     return data;
   }

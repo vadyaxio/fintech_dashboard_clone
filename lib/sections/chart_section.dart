@@ -46,12 +46,18 @@ class _ChartSectionState extends State<ChartSection>
     _loading = true;
     WidgetsBinding.instance?.addObserver(this); // Adding an observer
     setTimer(false);
-    API().chartApi(Chart(0, '', _periodDate, _compareDate)).then((result) => {
-          setState(() {
-            _list = result;
-            _loading = false;
-          })
-        });
+    requestApi();
+  }
+
+  requestApi() {
+    API()
+        .chartApi(context, Chart(0, '', _periodDate, _compareDate))
+        .then((result) => {
+              setState(() {
+                _list = result;
+                _loading = false;
+              })
+            });
   }
 
   @override
@@ -71,12 +77,7 @@ class _ChartSectionState extends State<ChartSection>
     _loading = true;
     setState(
         () => {type == 'period' ? _periodDate = date : _compareDate = date});
-    API().chartApi(Chart(0, '', _periodDate, _compareDate)).then((result) => {
-          setState(() {
-            _list = result;
-            _loading = false;
-          }),
-        });
+    requestApi();
   }
 
   void setTimer(bool isBackground) {
@@ -88,13 +89,7 @@ class _ChartSectionState extends State<ChartSection>
       //Not sending a request, if waiting for response
       if (!waitingForResponse) {
         waitingForResponse = true;
-        await API()
-            .chartApi(Chart(0, '', _periodDate, _compareDate))
-            .then((result) => {
-                  setState(() {
-                    _list = result;
-                  }),
-                });
+        await requestApi();
         waitingForResponse = false;
       }
     });

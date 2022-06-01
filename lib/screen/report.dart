@@ -16,11 +16,8 @@ class _ReportPageState extends State<ReportPage> {
   int activeTab = 0;
 
   void checkJWT() async {
-    API().homeApi().then((result) => {
+    API().homeApi(context).then((result) => {
           //print(result),
-          Future(() {
-            Navigator.of(context).popAndPushNamed('login');
-          })
         });
   }
 
