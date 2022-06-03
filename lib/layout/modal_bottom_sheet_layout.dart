@@ -8,7 +8,7 @@ class ModalBottomSheetLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-        heightFactor: 0.8,
+        heightFactor: 0.84,
         child: Container(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(

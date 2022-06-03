@@ -1,4 +1,5 @@
 import 'package:maxbonus_index/layout/modal_bottom_sheet_layout.dart';
+import 'package:maxbonus_index/models/dropdown_period.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,9 +8,14 @@ class RangePicker extends StatefulWidget {
   final String type;
   final Map<String, DateTime?>? date;
   final Function updateDate;
+  final num? dynamic;
 
   const RangePicker(
-      {Key? key, required this.type, required this.updateDate, this.date})
+      {Key? key,
+      required this.type,
+      required this.updateDate,
+      this.date,
+      this.dynamic})
       : super(key: key);
 
   @override
@@ -23,11 +29,66 @@ class _RangePickerState extends State<RangePicker> {
     "end": null,
   };
 
+  final List<DropdownPeriod> _dropdownOptions = <DropdownPeriod>[
+    DropdownPeriod(1, 'Текущий день',
+        DateTime.now().subtract(const Duration(days: 1)), DateTime.now()),
+    DropdownPeriod(
+        2,
+        'Предыдущий день',
+        DateTime.now().subtract(const Duration(days: 2)),
+        DateTime.now().subtract(const Duration(days: 1))),
+    DropdownPeriod(
+        3,
+        'Текущая неделя',
+        DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1)),
+        DateTime.now().add(
+            Duration(days: DateTime.daysPerWeek - DateTime.now().weekday))),
+    DropdownPeriod(
+        4,
+        'Предыдущая неделя',
+        DateTime.now()
+            .subtract(Duration(days: 7 + (DateTime.now().weekday - 1))),
+        DateTime.now().subtract(Duration(days: DateTime.now().weekday))),
+    DropdownPeriod(
+        5,
+        'Текущий месяц',
+        DateTime.utc(DateTime.now().year, DateTime.now().month, 1),
+        DateTime.utc(
+          DateTime.now().year,
+          DateTime.now().month + 1,
+        ).subtract(const Duration(days: 1))),
+    DropdownPeriod(
+        6,
+        'Предыдущий месяц',
+        DateTime.utc(DateTime.now().year, DateTime.now().month - 1, 1),
+        DateTime.utc(
+          DateTime.now().year,
+          DateTime.now().month,
+        ).subtract(const Duration(days: 1)))
+  ];
+
+  late DropdownPeriod? _selectedPeriod;
+
   @override
   void initState() {
     super.initState();
     _date['begin'] = widget.date!['begin'];
     _date['end'] = widget.date!['end'];
+
+    _selectedPeriod = findElementDropdownPeriod(_dropdownOptions);
+  }
+
+  findElementDropdownPeriod(List<DropdownPeriod> selectedPeriod) {
+    final index = selectedPeriod.indexWhere(
+      (element) =>
+          DateFormat('yyyy-MM-dd').format(element.dateStart) ==
+              DateFormat('yyyy-MM-dd')
+                  .format(_date['begin'] ?? DateTime.now()) &&
+          DateFormat('yyyy-MM-dd').format(element.dateEnd) ==
+              DateFormat('yyyy-MM-dd').format(_date['end'] ?? DateTime.now()),
+    );
+
+    return index >= 0 ? selectedPeriod[index] : null;
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -69,7 +130,11 @@ class _RangePickerState extends State<RangePicker> {
                     ? 'Укажите период'
                     : '${DateFormat('dd.MM').format(widget.date!['begin'] ?? DateTime.now())} - ${DateFormat('dd.MM').format(widget.date!['end'] ?? DateTime.now())}',
                 style: TextStyle(
-                    color: Colors.black54,
+                    color: widget.dynamic! == 0
+                        ? Colors.black54
+                        : widget.dynamic! > 0
+                            ? const Color.fromARGB(255, 19, 193, 4)
+                            : const Color.fromARGB(255, 255, 0, 1),
                     fontSize: (widget.date!['begin'] == null &&
                             widget.date!['end'] == null)
                         ? 10
@@ -83,14 +148,22 @@ class _RangePickerState extends State<RangePicker> {
                       ? Icons.calendar_month
                       : Icons.compare_arrows,
                   size: 20.0,
-                  color: Colors.black45,
+                  color: widget.dynamic! == 0
+                      ? Colors.black54
+                      : widget.dynamic! > 0
+                          ? const Color.fromARGB(255, 19, 193, 4)
+                          : const Color.fromARGB(255, 255, 0, 1),
                 ),
               )
             ],
           ),
           style: ElevatedButton.styleFrom(
               elevation: 0,
-              primary: Theme.of(context).dialogBackgroundColor,
+              primary: widget.dynamic! == 0
+                  ? Theme.of(context).dialogBackgroundColor
+                  : widget.dynamic! > 0
+                      ? const Color.fromARGB(255, 231, 250, 212)
+                      : const Color.fromARGB(255, 250, 230, 212),
               shadowColor: Theme.of(context).dialogBackgroundColor,
               side: BorderSide(
                   width: 0, color: Theme.of(context).dialogBackgroundColor)),
@@ -135,7 +208,10 @@ class _RangePickerState extends State<RangePicker> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                            width: 140,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.5,
                                             padding: const EdgeInsets.all(14),
                                             decoration: BoxDecoration(
                                                 borderRadius:
@@ -155,10 +231,13 @@ class _RangePickerState extends State<RangePicker> {
                                                           DateTime.now())
                                                   : 'Дата не указана',
                                               style:
-                                                  const TextStyle(fontSize: 14),
+                                                  const TextStyle(fontSize: 12),
                                             )),
                                         Container(
-                                            width: 140,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.5,
                                             padding: const EdgeInsets.all(14),
                                             decoration: BoxDecoration(
                                                 borderRadius:
@@ -178,9 +257,59 @@ class _RangePickerState extends State<RangePicker> {
                                                               DateTime.now())
                                                   : 'Дата не указана',
                                               style:
-                                                  const TextStyle(fontSize: 14),
+                                                  const TextStyle(fontSize: 12),
                                             ))
                                       ]),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          60,
+                                      height: 40,
+                                      padding: const EdgeInsets.all(14),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: const Color.fromARGB(
+                                              31, 156, 156, 156)),
+                                      child: DropdownButton<DropdownPeriod>(
+                                        value: _selectedPeriod,
+                                        iconSize: 18,
+                                        isExpanded: true,
+                                        underline: const SizedBox(),
+                                        icon: const Icon(Icons.arrow_drop_down),
+                                        elevation: 16,
+                                        style: const TextStyle(fontSize: 12),
+                                        onChanged: (DropdownPeriod? newValue) {
+                                          _date['begin'] = newValue!.dateStart;
+                                          _date['end'] = newValue.dateEnd;
+                                          setState(() {
+                                            _selectedPeriod = newValue;
+                                          });
+                                          submitForm();
+                                        },
+                                        hint: const Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "Выбор предустановленного периода",
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        ),
+                                        items: _dropdownOptions
+                                            .map((DropdownPeriod option) {
+                                          return DropdownMenuItem<
+                                              DropdownPeriod>(
+                                            value: option,
+                                            child: Text(
+                                              option.value,
+                                              style: const TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      )),
                                   const SizedBox(
                                     height: 12,
                                   ),

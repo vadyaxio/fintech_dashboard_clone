@@ -169,6 +169,13 @@ class _BarAreaState extends State<BarArea> {
                   },
                 ),
               ],
+              behaviors: [
+                charts.SlidingViewport(),
+                charts.PanAndZoomBehavior()
+              ],
+              domainAxis: charts.OrdinalAxisSpec(
+                  viewport: charts.OrdinalViewport(
+                      widget.currentDetails[0].dKey, 10)),
               animate: true,
               barGroupingType: charts.BarGroupingType.grouped,
             ),

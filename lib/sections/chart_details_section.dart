@@ -82,9 +82,15 @@ class _ChartDetailsSectionState extends State<ChartDetailsSection> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RangePicker(
-                      type: 'period', date: _periodDate, updateDate: refresh),
+                      type: 'period',
+                      date: _periodDate,
+                      dynamic: _chart.factDynamic,
+                      updateDate: refresh),
                   RangePicker(
-                      type: 'compare', date: _compareDate, updateDate: refresh)
+                      type: 'compare',
+                      date: _compareDate,
+                      dynamic: 0,
+                      updateDate: refresh)
                 ]),
             CircularChart(
               title: _chart.factorName,

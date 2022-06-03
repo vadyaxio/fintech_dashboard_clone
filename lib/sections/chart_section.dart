@@ -19,7 +19,7 @@ class ChartSection extends StatefulWidget {
 
 class _ChartSectionState extends State<ChartSection>
     with WidgetsBindingObserver {
-  late Timer _timer = Timer(const Duration(seconds: 1), () => {print("1233")});
+  late Timer _timer = Timer(const Duration(seconds: 1), () => {});
   bool waitingForResponse = false;
   late bool _loading = false;
   late List<Chart> _list = [];
@@ -44,7 +44,7 @@ class _ChartSectionState extends State<ChartSection>
   void initState() {
     super.initState();
     _loading = true;
-    WidgetsBinding.instance?.addObserver(this); // Adding an observer
+    WidgetsBinding.instance.addObserver(this); // Adding an observer
     setTimer(false);
     requestApi();
   }
@@ -63,7 +63,7 @@ class _ChartSectionState extends State<ChartSection>
   @override
   void dispose() {
     _timer.cancel(); // Cancelling a timer on dispose
-    WidgetsBinding.instance?.removeObserver(this); // Removing an observer
+    WidgetsBinding.instance.removeObserver(this); // Removing an observer
     super.dispose();
   }
 
@@ -119,10 +119,12 @@ class _ChartSectionState extends State<ChartSection>
                             RangePicker(
                                 type: 'period',
                                 date: _periodDate,
+                                dynamic: 0,
                                 updateDate: refresh),
                             RangePicker(
                                 type: 'compare',
                                 date: _compareDate,
+                                dynamic: 0,
                                 updateDate: refresh)
                           ]),
                       for (Chart item in _list)

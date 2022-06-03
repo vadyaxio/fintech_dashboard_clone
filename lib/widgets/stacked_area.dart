@@ -31,7 +31,7 @@ class StackedArea extends StatelessWidget {
           colorFn: (_, __) => charts.ColorUtil.fromDartColor(
               const Color.fromARGB(255, 24, 186, 245)),
           strokeWidthPxFn: (LinearChart data, _) => 5,
-          domainFn: (LinearChart data, _) => data.date,
+          domainFn: (LinearChart data, _) => DateTime.parse(data.dKey),
           measureFn: (LinearChart data, _) => data.value,
           data: current,
         ),
@@ -39,7 +39,7 @@ class StackedArea extends StatelessWidget {
           id: 'Prev',
           colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.black12),
           strokeWidthPxFn: (LinearChart data, _) => 5,
-          domainFn: (LinearChart data, _) => data.date,
+          domainFn: (LinearChart data, _) => DateTime.parse(data.dKey),
           measureFn: (LinearChart data, _) => data.value,
           data: prev,
         ),
@@ -62,6 +62,7 @@ class StackedArea extends StatelessWidget {
                 LocalizedDateTimeFactory(Localizations.localeOf(context)),
             defaultRenderer:
                 charts.LineRendererConfig(includeArea: true, stacked: false),
+            behaviors: [charts.SlidingViewport(), charts.PanAndZoomBehavior()],
             animate: true));
   }
 }

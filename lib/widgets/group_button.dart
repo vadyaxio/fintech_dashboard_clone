@@ -33,12 +33,7 @@ class _GroupButtonVerticalState extends State<GroupButtonVertical> {
     } else {
       _buttons = [
         {"index": 1, "name": "Динамика", "disable": false, "position": "left"},
-        {
-          "index": 2,
-          "name": "Сегментация",
-          "disable": true,
-          "position": "right"
-        },
+        {"index": 2, "name": "Детали", "disable": true, "position": "right"},
       ];
     }
   }
