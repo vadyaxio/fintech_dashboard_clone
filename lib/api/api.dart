@@ -8,7 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:maxbonus_index/models/user_factor.dart';
 
-bool isDev = true;
+bool isDev = false;
 bool isWeb = true;
 
 class API {
