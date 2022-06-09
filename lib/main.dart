@@ -6,35 +6,34 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:workmanager/workmanager.dart';
 
 bool hasJwt = false;
 
 /// Used for Background Updates using Workmanager Plugin
-void callbackDispatcher() {
-  Workmanager().executeTask((taskName, inputData) {
-    final now = DateTime.now();
-    return Future.wait<bool?>([
-      HomeWidget.saveWidgetData(
-        'title',
-        'Updated from Background',
-      ),
-      HomeWidget.saveWidgetData(
-        'message',
-        '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}',
-      ),
-      HomeWidget.updateWidget(
-          name: 'HomeWidgetExampleProvider',
-          androidName: 'HomeWidgetExampleProvider',
-          qualifiedAndroidName:
-              'com.example.maxbonus_index.HomeWidgetExampleProvider'
-          //iOSName: 'HomeWidgetExample',
-          ),
-    ]).then((value) {
-      return !value.contains(false);
-    });
-  });
-}
+// void callbackDispatcher() {
+//   Workmanager().executeTask((taskName, inputData) {
+//     final now = DateTime.now();
+//     return Future.wait<bool?>([
+//       HomeWidget.saveWidgetData(
+//         'title',
+//         'Updated from Background',
+//       ),
+//       HomeWidget.saveWidgetData(
+//         'message',
+//         '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}',
+//       ),
+//       HomeWidget.updateWidget(
+//           name: 'HomeWidgetExampleProvider',
+//           androidName: 'HomeWidgetExampleProvider',
+//           qualifiedAndroidName:
+//               'com.example.maxbonus_index.HomeWidgetExampleProvider'
+//           //iOSName: 'HomeWidgetExample',
+//           ),
+//     ]).then((value) {
+//       return !value.contains(false);
+//     });
+//   });
+// }
 
 // Called when Doing Background Work initiated from Widget
 Future<void> backgroundCallback(Uri? uri) async {
