@@ -83,6 +83,7 @@ class _ChartPageState extends State<ChartPage> {
                     Expanded(
                         child: Scrollbar(
                             child: ListView.separated(
+                      shrinkWrap: true,
                       padding: const EdgeInsets.all(8),
                       itemCount: _list.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -90,10 +91,16 @@ class _ChartPageState extends State<ChartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                _list[index].factorName,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500),
+                              SizedBox(
+                                width: 240,
+                                child: Text(
+                                  _list[index].factorName,
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                               Checkbox(
                                   value: _list[index].isVisible,
