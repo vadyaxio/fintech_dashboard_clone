@@ -46,8 +46,8 @@ class _ChartPageState extends State<ChartPage> {
           setState(() {
             _loading = false;
           }),
+          _pullRefresh()
         });
-    _pullRefresh();
   }
 
   Future<void> _pullRefresh() async {
