@@ -1,3 +1,4 @@
+import 'package:maxbonus_index/enum/selection_period.dart';
 import 'package:maxbonus_index/layout/modal_bottom_sheet_layout.dart';
 import 'package:maxbonus_index/models/dropdown_period.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -29,43 +30,7 @@ class _RangePickerState extends State<RangePicker> {
     "end": null,
   };
 
-  final List<DropdownPeriod> _dropdownOptions = <DropdownPeriod>[
-    DropdownPeriod(1, 'Текущий день',
-        DateTime.now().subtract(const Duration(days: 1)), DateTime.now()),
-    DropdownPeriod(
-        2,
-        'Предыдущий день',
-        DateTime.now().subtract(const Duration(days: 2)),
-        DateTime.now().subtract(const Duration(days: 1))),
-    DropdownPeriod(
-        3,
-        'Текущая неделя',
-        DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1)),
-        DateTime.now().add(
-            Duration(days: DateTime.daysPerWeek - DateTime.now().weekday))),
-    DropdownPeriod(
-        4,
-        'Предыдущая неделя',
-        DateTime.now()
-            .subtract(Duration(days: 7 + (DateTime.now().weekday - 1))),
-        DateTime.now().subtract(Duration(days: DateTime.now().weekday))),
-    DropdownPeriod(
-        5,
-        'Текущий месяц',
-        DateTime.utc(DateTime.now().year, DateTime.now().month, 1),
-        DateTime.utc(
-          DateTime.now().year,
-          DateTime.now().month + 1,
-        ).subtract(const Duration(days: 1))),
-    DropdownPeriod(
-        6,
-        'Предыдущий месяц',
-        DateTime.utc(DateTime.now().year, DateTime.now().month - 1, 1),
-        DateTime.utc(
-          DateTime.now().year,
-          DateTime.now().month,
-        ).subtract(const Duration(days: 1)))
-  ];
+  final List<DropdownPeriod> _dropdownOptions = SelectionPeriod().getOptions();
 
   late DropdownPeriod? _selectedPeriod;
 
@@ -178,210 +143,231 @@ class _RangePickerState extends State<RangePicker> {
                   return StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
                     return ModalBottomSheetLayout(
+                        heightFactor: 0.84,
                         content: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                                widget.type == 'period'
-                                    ? 'Выбрать период'
-                                    : 'Сравнить данные',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20))),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Form(
-                            key: _formKey,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.5,
-                                            padding: const EdgeInsets.all(14),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: const Color.fromARGB(
-                                                    31, 156, 156, 156)),
-                                            child: Text(
-                                              widget.date!['begin'] != null
-                                                  ? DateFormat(
-                                                          'dd MMM yyyy',
-                                                          Localizations
-                                                                  .localeOf(
-                                                                      context)
-                                                              .languageCode)
-                                                      .format(widget
-                                                              .date!['begin'] ??
-                                                          DateTime.now())
-                                                  : 'Дата не указана',
-                                              style:
-                                                  const TextStyle(fontSize: 12),
-                                            )),
-                                        Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.5,
-                                            padding: const EdgeInsets.all(14),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: const Color.fromARGB(
-                                                    31, 156, 156, 156)),
-                                            child: Text(
-                                              widget.date!['end'] != null
-                                                  ? DateFormat(
-                                                          'dd MMM yyyy',
-                                                          Localizations
-                                                                  .localeOf(
-                                                                      context)
-                                                              .languageCode)
-                                                      .format(
-                                                          widget.date!['end'] ??
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                    widget.type == 'period'
+                                        ? 'Выбрать период'
+                                        : 'Сравнить данные',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20))),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Form(
+                                key: _formKey,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.5,
+                                                padding:
+                                                    const EdgeInsets.all(14),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: const Color.fromARGB(
+                                                        31, 156, 156, 156)),
+                                                child: Text(
+                                                  widget.date!['begin'] != null
+                                                      ? DateFormat(
+                                                              'dd MMM yyyy',
+                                                              Localizations
+                                                                      .localeOf(
+                                                                          context)
+                                                                  .languageCode)
+                                                          .format(widget.date![
+                                                                  'begin'] ??
                                                               DateTime.now())
-                                                  : 'Дата не указана',
-                                              style:
-                                                  const TextStyle(fontSize: 12),
-                                            ))
-                                      ]),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          60,
-                                      height: 40,
-                                      padding: const EdgeInsets.all(14),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: const Color.fromARGB(
-                                              31, 156, 156, 156)),
-                                      child: DropdownButton<DropdownPeriod>(
-                                        value: _selectedPeriod,
-                                        iconSize: 18,
-                                        isExpanded: true,
-                                        underline: const SizedBox(),
-                                        icon: const Icon(Icons.arrow_drop_down),
-                                        elevation: 16,
-                                        style: const TextStyle(fontSize: 12),
-                                        onChanged: (DropdownPeriod? newValue) {
-                                          _date['begin'] = newValue!.dateStart;
-                                          _date['end'] = newValue.dateEnd;
-                                          setState(() {
-                                            _selectedPeriod = newValue;
-                                          });
-                                          submitForm();
-                                        },
-                                        hint: const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            "Выбор предустановленного периода",
+                                                      : 'Дата не указана',
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                )),
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.5,
+                                                padding:
+                                                    const EdgeInsets.all(14),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: const Color.fromARGB(
+                                                        31, 156, 156, 156)),
+                                                child: Text(
+                                                  widget.date!['end'] != null
+                                                      ? DateFormat(
+                                                              'dd MMM yyyy',
+                                                              Localizations
+                                                                      .localeOf(
+                                                                          context)
+                                                                  .languageCode)
+                                                          .format(widget.date![
+                                                                  'end'] ??
+                                                              DateTime.now())
+                                                      : 'Дата не указана',
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                ))
+                                          ]),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              60,
+                                          height: 40,
+                                          padding: const EdgeInsets.all(14),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: const Color.fromARGB(
+                                                  31, 156, 156, 156)),
+                                          child: DropdownButton<DropdownPeriod>(
+                                            value: _selectedPeriod,
+                                            iconSize: 18,
+                                            isExpanded: true,
+                                            underline: const SizedBox(),
+                                            icon: const Icon(
+                                                Icons.arrow_drop_down),
+                                            elevation: 16,
                                             style:
-                                                TextStyle(color: Colors.grey),
+                                                const TextStyle(fontSize: 12),
+                                            onChanged:
+                                                (DropdownPeriod? newValue) {
+                                              _date['begin'] =
+                                                  newValue!.dateStart;
+                                              _date['end'] = newValue.dateEnd;
+                                              setState(() {
+                                                _selectedPeriod = newValue;
+                                              });
+                                              submitForm();
+                                            },
+                                            hint: const Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                "Выбор предустановленного периода",
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                            items: _dropdownOptions
+                                                .map((DropdownPeriod option) {
+                                              return DropdownMenuItem<
+                                                  DropdownPeriod>(
+                                                value: option,
+                                                child: Text(
+                                                  option.value,
+                                                  style: const TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          )),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
+                                          child: SfDateRangePicker(
+                                            rangeTextStyle: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 250, 102, 28),
+                                            ),
+                                            monthViewSettings:
+                                                const DateRangePickerMonthViewSettings(
+                                                    firstDayOfWeek: 1),
+                                            onSelectionChanged:
+                                                _onSelectionChanged,
+                                            selectionMode:
+                                                DateRangePickerSelectionMode
+                                                    .range,
+                                            initialSelectedRange:
+                                                PickerDateRange(
+                                                    widget.date!['begin'],
+                                                    widget.date!['end']),
+                                          )),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                60,
+                                        child: ElevatedButton(
+                                          onPressed: submitForm,
+                                          child: const Text(
+                                            'ПРИМЕНИТЬ',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          ),
+                                          style: ButtonStyle(
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      const EdgeInsets.all(16)),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Theme.of(context)
+                                                          .primaryColor),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                              ))),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                60,
+                                        child: TextButton(
+                                          onPressed: clearForm,
+                                          child: const Text('ОЧИСТИТЬ'),
+                                          style: TextButton.styleFrom(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 10, 10, 10),
+                                            primary: Colors.black54,
                                           ),
                                         ),
-                                        items: _dropdownOptions
-                                            .map((DropdownPeriod option) {
-                                          return DropdownMenuItem<
-                                              DropdownPeriod>(
-                                            value: option,
-                                            child: Text(
-                                              option.value,
-                                              style: const TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                          );
-                                        }).toList(),
-                                      )),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          40,
-                                      child: SfDateRangePicker(
-                                        rangeTextStyle: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 250, 102, 28),
-                                        ),
-                                        monthViewSettings:
-                                            const DateRangePickerMonthViewSettings(
-                                                firstDayOfWeek: 1),
-                                        onSelectionChanged: _onSelectionChanged,
-                                        selectionMode:
-                                            DateRangePickerSelectionMode.range,
-                                        initialSelectedRange: PickerDateRange(
-                                            widget.date!['begin'],
-                                            widget.date!['end']),
-                                      )),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 60,
-                                    child: ElevatedButton(
-                                      onPressed: submitForm,
-                                      child: const Text(
-                                        'ПРИМЕНИТЬ',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 16),
                                       ),
-                                      style: ButtonStyle(
-                                          padding: MaterialStateProperty.all<
-                                                  EdgeInsets>(
-                                              const EdgeInsets.all(16)),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Theme.of(context)
-                                                      .primaryColor),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                          ))),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 60,
-                                    child: TextButton(
-                                      onPressed: clearForm,
-                                      child: const Text('ОЧИСТИТЬ'),
-                                      style: TextButton.styleFrom(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 10, 10, 10),
-                                        primary: Colors.black54,
+                                      const SizedBox(
+                                        height: 12,
                                       ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                ])),
-                      ],
-                    ));
+                                    ])),
+                          ],
+                        ));
                   });
                 });
           },

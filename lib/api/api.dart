@@ -6,17 +6,25 @@ import 'package:maxbonus_index/models/chart_details.dart';
 import 'package:maxbonus_index/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:maxbonus_index/models/user_factor.dart';
+
+bool isDev = true;
+bool isWeb = true;
 
 class API {
   Map<String, String> headers = {};
   final storage = const FlutterSecureStorage();
-  String baseUrl = "expert.maxbonus.ru";
-  String apiStr = "/api/v1/";
+  //String baseUrl = "expert.maxbonus.ru";
+  //String apiStr = "/api/v1/";
   //App
   //String baseUrl = "10.0.2.2";
   //Web
-  //String baseUrl = "127.0.0.1";
-  //String apiStr = "/web/api/v1/";
+  String baseUrl = isDev
+      ? isWeb
+          ? "127.0.0.1"
+          : "10.0.2.2"
+      : "expert.maxbonus.ru";
+  String apiStr = isDev ? "/web/api/v1/" : "/api/v1/";
 
   Future<bool> getJwt() async {
     String? jwt;
@@ -37,8 +45,9 @@ class API {
   Future<Response?> response(String params, String type, String body) async {
     Uri url;
 
-    //url = Uri.http(baseUrl, "$apiStr$params");
-    url = Uri.https(baseUrl, "$apiStr$params");
+    url = isDev
+        ? Uri.http(baseUrl, "$apiStr$params")
+        : Uri.https(baseUrl, "$apiStr$params");
 
     String? jwt = await storage.read(key: "jwt");
 
@@ -101,6 +110,50 @@ class API {
       if (res?.statusCode == 200) {}
     } catch (e) {
       clearJwt();
+    }
+    return data;
+  }
+
+  Future<List<UserFactor>> userFactorsApi(context) async {
+    String params = "maxbonus-index/user-factors";
+
+    List<UserFactor> data = [];
+
+    try {
+      //print('debug');
+      final res = await response(params, "GET", "");
+      final getData = json.decode(res?.body ?? "");
+      if (res?.statusCode == 200) {
+        var arrayObjsJson = getData['data']['dataModels'] as List;
+        data = arrayObjsJson
+            .map((userFactor) => UserFactor.fromJson(userFactor))
+            .toList();
+      } else if (res?.statusCode == 401) {
+        logoutApi(context);
+      }
+    } catch (e) {
+      logoutApi(context);
+    }
+    return data;
+  }
+
+  Future<bool> userUpdateFactorApi(context, UserFactor userFactor) async {
+    String params = "maxbonus-index/user-factors";
+
+    bool data = false;
+
+    Map jsonRequestData = userFactor.toJsonDate();
+    String jsonRequestBody = json.encode(jsonRequestData);
+    try {
+      //print('debug');
+      final res = await response(params, "POST", jsonRequestBody);
+      if (res?.statusCode == 200) {
+        data = true;
+      } else if (res?.statusCode == 401) {
+        logoutApi(context);
+      }
+    } catch (e) {
+      logoutApi(context);
     }
     return data;
   }

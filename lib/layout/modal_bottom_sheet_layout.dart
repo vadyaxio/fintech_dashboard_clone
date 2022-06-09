@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 class ModalBottomSheetLayout extends StatelessWidget {
   final Widget content;
+  final double heightFactor;
 
-  const ModalBottomSheetLayout({Key? key, required this.content})
+  const ModalBottomSheetLayout(
+      {Key? key, required this.content, required this.heightFactor})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-        heightFactor: 0.84,
+        heightFactor: heightFactor,
         child: Container(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(

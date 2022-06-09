@@ -41,26 +41,26 @@ class _HomePageState extends State<HomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.bar_chart,
+              Icons.bar_chart_rounded,
             ),
             label: 'Главная',
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.file_open,
+                Icons.assignment_rounded,
               ),
               label: 'Отчеты',
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.message,
+                Icons.message_rounded,
               ),
               label: 'Чат',
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.supervised_user_circle_sharp,
+                Icons.account_circle_rounded,
               ),
               label: 'Профиль',
               backgroundColor: Colors.white),
